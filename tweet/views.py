@@ -1,14 +1,30 @@
+
+
+    
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Tweet
 from .forms import TweetForm, UserRegistrationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
-
-
+from django.db.models import Q
 
 def tweet_list(request):
+    q = request.GET.get('q', '').strip()
     tweets = Tweet.objects.all().order_by('-created_at')
-    return render(request, 'tweet/tweet_list.html', {'tweets': tweets})
+    if q:
+        # Build a safe Q() that only uses fields that exist on the model.
+        field_names = [f.name for f in Tweet._meta.get_fields()]
+        query_q = Q()
+        # common text-field names - check if they exist before using them
+        for field in ['content', 'body', 'text']:
+            if field in field_names:
+                query_q |= Q(**{f"{field}__icontains": q})
+        # also search author username if relation exists
+        if 'user' in field_names:
+            query_q |= Q(user__username__icontains=q)
+        if query_q:
+            tweets = tweets.filter(query_q)
+    return render(request, 'tweet/tweet_list.html', {'tweets': tweets, 'q': q})
 
 @login_required
 def tweet_create(request):
@@ -63,5 +79,3 @@ def register(request):
         form=UserRegistrationForm()
 
     return render(request, 'registration/register.html', {'form': form})
-
-    
