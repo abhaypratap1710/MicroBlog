@@ -1,5 +1,5 @@
 """
-WSGI config for chaihq project.
+WSGI config for postify project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,7 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'chaihq.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'postify.settings')
+
 
 application = get_wsgi_application()

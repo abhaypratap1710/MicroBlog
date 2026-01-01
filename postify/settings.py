@@ -52,7 +52,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'chaihq.urls'
+ROOT_URLCONF = 'postify.urls'
+
 
 TEMPLATES = [
     {
@@ -69,7 +70,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'chaihq.wsgi.application'
+WSGI_APPLICATION = 'postify.wsgi.application'
+
 
 
 # Database
@@ -117,16 +119,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
 
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-STATICURL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-LOGINN_URL='/accounts/login/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+
+
+LOGIN_URL='/accounts/login/'
 LOGIN_REDIRECT_URL='/tweet/'
 LOGOUT_REDIRECT_URL='/tweet/'
